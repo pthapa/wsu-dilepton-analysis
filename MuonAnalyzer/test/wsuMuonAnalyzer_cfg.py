@@ -9,16 +9,18 @@ process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 process.source = cms.Source("PoolSource",
     # replace 'myfile.root' with the source file you want to use
     fileNames = cms.untracked.vstring(
-        #'file:///afs/cern.ch/user/s/sturdy/work/WSUAnalysis/DiLeptons/CMSSW_7_4_0/src/CosmicSP_2012Av1RECO.root'
-        #'file:///afs/cern.ch/user/s/sturdy/work/WSUAnalysis/DiLeptons/CMSSW_7_4_0/src/CosmicSP_2012Bv1RECO.root'
-        #'file:///afs/cern.ch/user/s/sturdy/work/WSUAnalysis/DiLeptons/CMSSW_7_4_0/src/CosmicSP_2012Cv1RECO.root'
-        'file:///afs/cern.ch/user/s/sturdy/work/WSUAnalysis/DiLeptons/CMSSW_7_4_0/src/CosmicSP_2012Dv1RECO.root'
-        #'file:///afs/cern.ch/user/s/sturdy/work/WSUAnalysis/DiLeptons/CMSSW_7_4_0/src/CosmicSP_2015v1RECO.root'
-        #'/store/data/Commissioning2015/Cosmics/RECO/PromptReco-v1/000/232/928/00000/94B73492-63A8-E411-A07B-02163E01054C.root'
-        #'/store/data/Commissioning2015/Cosmics/AOD/PromptReco-v1/000/232/928/00000/E64DC997-63A8-E411-BB15-02163E0124F8.root'
+        # Input file
+        'file:///afs/cern.ch/user/p/pthapa/work/CMSSW_7_4_1/src/4.22_RunCosmics2011A+RunCosmics2011A+RECOCOSD+ALCACOSD+SKIMCOSD+HARVESTDC/step2.root'
     )
 )
+
+
+process.options = cms.untracked.PSet(
+    wantSummary = cms.untracked.bool(True)
+)
+
 from WSUDiLeptons.MuonAnalyzer.wsuMuonAnalyzer_cfi import muonAnalysis
+
 
 process.analysis1Leg = muonAnalysis.clone(
     muonSrc = cms.InputTag("muons1Leg")
@@ -44,7 +46,8 @@ process.analysisNoRPC = muonAnalysis.clone(
 
 
 process.TFileService = cms.Service("TFileService",
-    fileName = cms.string('CosmicMuonAnalysis_2012D.root')
+# outputfile
+    fileName = cms.string('CosmicMuonAnalysis_2012D_struct.root')
 )
 process.p = cms.Path(
     process.analysis1Leg
