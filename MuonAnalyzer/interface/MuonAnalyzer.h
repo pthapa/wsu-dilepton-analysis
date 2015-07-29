@@ -33,21 +33,23 @@ class MuonAnalyzer : public edm::EDAnalyzer {
 
 public:
   struct cosmicVariables
-{ int muon_upper_charge, muon_lower_charge;
-  double muon_upper_pt, muon_upper_eta, muon_upper_phi, muon_upper_theta, muon_upper_dxy, muon_upper_dz;
-  double muon_lower_pt, muon_lower_eta, muon_lower_phi, muon_lower_theta, muon_lower_dxy, muon_lower_dz;
-
+{
+  int muon_upper_charge, muon_lower_charge;
   int muon_upper_number_of_pixel_hit, muon_upper_number_of_tracker_hit, muon_upper_number_of_muon_station_hit, muon_upper_hit;
   int muon_lower_number_of_pixel_hit, muon_lower_number_of_tracker_hit, muon_lower_number_of_muon_station_hit, muon_lower_hit;
+  double muon_upper_pt, muon_upper_eta, muon_upper_phi, muon_upper_theta, muon_upper_dxy, muon_upper_dz;
+  double muon_lower_pt, muon_lower_eta, muon_lower_phi, muon_lower_theta, muon_lower_dxy, muon_lower_dz;
   double muon_upper_chi_square_over_n_d_o_f, muon_upper_inner_Y_position, muon_upper_outer_Y_position;
   double muon_lower_chi_square_over_n_d_o_f, muon_lower_inner_Y_position, muon_lower_outer_Y_position;
+ 
   bool muon_upper_stand_alone, muon_upper_combined, muon_upper_tracker;
   bool muon_lower_stand_alone, muon_lower_combined, muon_lower_tracker;
-
+  bool debug;
+  
 
   static std::string contents()
   {
-    return "muon_upper_charge/I:muon_lower_charge:muon_upper_number_of_pixel_hit:muon_upper_number_of_tracker_hit:muon_upper_number_of_muon_station_hit:muon_upper_hit:muon_lower_number_of_pixel_hit:muon_lower_number_of_tracker_hit:muon_lower_number_of_muon_station_hit:muon_lower_hit:muon_upper_pt/F:muon_upper_eta:muon_upper_phi:muon_upper_theta:muon_upper_dxy:muon_upper_dz:muon_lower_pt:muon_lower_eta:muon_lower_phi:muon_lower_theta, muon_lower_dxy:muon_lower_dz:muon_upper_chi_square_over_n_d_o_f:muon_upper_inner_Y_position, muon_upper_outer_Y_position:muon_lower_chi_square_over_n_d_o_f:muon_lower_inner_Y_position:muon_lower_outer_Y_position";
+    return "muon_upper_charge/I:muon_lower_charge:muon_upper_number_of_pixel_hit:muon_upper_number_of_tracker_hit:muon_upper_number_of_muon_station_hit:muon_upper_hit:muon_lower_number_of_pixel_hit:muon_lower_number_of_tracker_hit:muon_lower_number_of_muon_station_hit:muon_lower_hit:muon_upper_pt/D:muon_upper_eta:muon_upper_phi:muon_upper_theta:muon_upper_dxy:muon_upper_dz:muon_lower_pt:muon_lower_eta:muon_lower_phi:muon_lower_theta, muon_lower_dxy:muon_lower_dz:muon_upper_chi_square_over_n_d_o_f:muon_upper_inner_Y_position:muon_upper_outer_Y_position:muon_lower_chi_square_over_n_d_o_f:muon_lower_inner_Y_position:muon_lower_outer_Y_position";
   } 
 };
 struct cosmicMuon
@@ -65,7 +67,7 @@ struct cosmicMuon
   
   static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
   void initialize(cosmicMuon &theCosmicObject);
-  void getTracRef(reco::TrackRef ref, cosmicVariables &theCosmicVariables);
+  void getTracRef(reco::TrackRef ref, cosmicVariables &theCosmicVariables, bool debug);
   void selectMuon(cosmicVariables &theCosmicVariables);
  
 

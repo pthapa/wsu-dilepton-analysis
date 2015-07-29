@@ -25,18 +25,18 @@ void MuonAnalyzer:: initialize(MuonAnalyzer::cosmicMuon &theCosmicObject)
  
   theCosmicObject.standAlone.muon_upper_charge = -99;
   theCosmicObject.standAlone.muon_lower_charge = -99;
-  theCosmicObject.standAlone.muon_upper_pt = -1;
-  theCosmicObject.standAlone.muon_lower_pt = -1;
-  theCosmicObject.standAlone.muon_upper_eta = -10;
-  theCosmicObject.standAlone.muon_lower_eta = -10;
-  theCosmicObject.standAlone.muon_upper_phi = -10;
-  theCosmicObject.standAlone.muon_lower_phi = -10;
-  theCosmicObject.standAlone.muon_upper_theta = -10;
-  theCosmicObject.standAlone.muon_lower_theta = -10;
-  theCosmicObject.standAlone.muon_upper_dxy = 0;
-  theCosmicObject.standAlone.muon_lower_dxy = 0;
-  theCosmicObject.standAlone.muon_upper_dz = 0;
-  theCosmicObject.standAlone.muon_lower_dz = 0;
+  theCosmicObject.standAlone.muon_upper_pt = -1.;
+  theCosmicObject.standAlone.muon_lower_pt = -1.;
+  theCosmicObject.standAlone.muon_upper_eta = -10.;
+  theCosmicObject.standAlone.muon_lower_eta = -10.;
+  theCosmicObject.standAlone.muon_upper_phi = -10.;
+  theCosmicObject.standAlone.muon_lower_phi = -10.;
+  theCosmicObject.standAlone.muon_upper_theta = -10.;
+  theCosmicObject.standAlone.muon_lower_theta = -10.;
+  theCosmicObject.standAlone.muon_upper_dxy = 0.;
+  theCosmicObject.standAlone.muon_lower_dxy = 0.;
+  theCosmicObject.standAlone.muon_upper_dz = 0.;
+  theCosmicObject.standAlone.muon_lower_dz = 0.;
   theCosmicObject.standAlone.muon_upper_number_of_muon_station_hit = -1;
   theCosmicObject.standAlone.muon_upper_number_of_pixel_hit = -1;
   theCosmicObject.standAlone.muon_upper_number_of_tracker_hit = -1;
@@ -45,12 +45,12 @@ void MuonAnalyzer:: initialize(MuonAnalyzer::cosmicMuon &theCosmicObject)
   theCosmicObject.standAlone.muon_lower_number_of_pixel_hit = -1;
   theCosmicObject.standAlone.muon_lower_number_of_tracker_hit = -1,
     theCosmicObject.standAlone.muon_lower_hit = -1;
-  theCosmicObject.standAlone.muon_upper_chi_square_over_n_d_o_f = -1;
-  theCosmicObject.standAlone.muon_upper_inner_Y_position = 0;
-  theCosmicObject.standAlone.muon_upper_outer_Y_position = 0;
-  theCosmicObject.standAlone.muon_lower_chi_square_over_n_d_o_f = -1;
-  theCosmicObject.standAlone.muon_lower_inner_Y_position = 0;
-  theCosmicObject.standAlone.muon_lower_outer_Y_position = 0;
+  theCosmicObject.standAlone.muon_upper_chi_square_over_n_d_o_f = -1.;
+  theCosmicObject.standAlone.muon_upper_inner_Y_position = 0.;
+  theCosmicObject.standAlone.muon_upper_outer_Y_position = 0.;
+  theCosmicObject.standAlone.muon_lower_chi_square_over_n_d_o_f = -1.;
+  theCosmicObject.standAlone.muon_lower_inner_Y_position = 0.;
+  theCosmicObject.standAlone.muon_lower_outer_Y_position = 0.;
   
   theCosmicObject.standAlone.muon_upper_stand_alone=0;
   theCosmicObject.standAlone.muon_upper_combined=0;
@@ -59,25 +59,23 @@ void MuonAnalyzer:: initialize(MuonAnalyzer::cosmicMuon &theCosmicObject)
   theCosmicObject.standAlone.muon_lower_combined =0; 
   theCosmicObject.standAlone.muon_lower_tracker=0;
 
-
-
-
-
-
   theCosmicObject.combined =  theCosmicObject.standAlone;
 
   theCosmicObject.tracker =  theCosmicObject.standAlone;
 
 
 
-}
+}// closes the initialize function
 
 
 
-void MuonAnalyzer:: getTracRef(reco::TrackRef ref, MuonAnalyzer:: cosmicVariables &theCosmicVariables)
+void MuonAnalyzer:: getTracRef(reco::TrackRef ref, MuonAnalyzer:: cosmicVariables &theCosmicVariables, bool debug=false)
 {
 
   if (ref->innerPosition().Y() > 0) {
+
+   
+
     //fill these out
     //	theCosmicVariables.muon_upper_stand_alone = muon_is_stand_alone;// assign muon_is_stand_alont to muon_upper_stand_alone 
     // if it passes the the condition inside the if statemt
@@ -181,9 +179,10 @@ void MuonAnalyzer::analyze(const edm::Event& ev, const edm::EventSetup& es)
   //edm::Handle<edm::View<reco::Muon> > muonColl;
   edm::Handle<reco::MuonCollection > muonColl;// special kind of vector
   ev.getByLabel(muonSrc_, muonColl);
-
   if( muonColl->size()!= 2)
     return;
+  //std::cout<<"muonColl->size(): "<< muonColl->size( )<< std::endl;
+ 
   //  int muIdx = 0;
   for (reco::MuonCollection::const_iterator muon=muonColl->begin();// muonCollEnd=muonColl->end();
        muon!=muonColl->end();
@@ -200,24 +199,70 @@ void MuonAnalyzer::analyze(const edm::Event& ev, const edm::EventSetup& es)
       // if one staement is true, then skips the rest of other statements
 
 
-       if (muon->standAloneMuon().isNonnull())
+      if (muon->standAloneMuon().isNonnull())
 	{
+	  //  std::cout<< "standAlone Muone is processed !" << std::endl;
+
 	  //  muon_is_stand_alone =true;// if theres is stand alone muon set muon_is_alone  variable as a true
 	  ref = muon->standAloneMuon();// assign stand alone muon to ref of type reco::TrackRef
 	  getTracRef(ref,cosmicObject.standAlone);
 	 
 	}
       if (muon->combinedMuon().isNonnull())
-	{ 
+	{
+	       std::cout << "combinedMuon is processed !!"<< std::endl;
+ 
 	  // muon_is_combined=true;
 	  ref = muon->combinedMuon();
 	  getTracRef(ref,cosmicObject.combined);
 
 	}
+
+      // Impement these functions
+      /*
+       ProductID id() const {return product_.id();}
+
+    /// Accessor for product getter.
+    EDProductGetter const* productGetter() const {return product_.productGetter();}
+
+    /// Accessor for product key.
+    key_type key() const {return index_;}
+
+    // This one just for backward compatibility.  Will be removed soon.
+    key_type index() const {return index_;}
+
+    /// Returns true if container referenced by the Ref has been cached
+    bool hasProductCache() const {return product_.productPtr() != 0;}
+
+    /// Checks if collection is in memory or available
+    /// in the Event. No type checking is done.
+    bool isAvailable() const;
+
+    /// Checks if this ref is transient (i.e. not persistable).
+    bool isTransient() const {return product_.isTransient();}
+
+
+*/
       if(muon->track().isNonnull()){
 	//	muon_is_traker=true;
+       	std::cout << "TrackMuon is processed !!!"<< std::endl;
+	std::cout <<"tracking id"  << muon->track().id()<< std::endl;
+	std::cout << "product cache" << muon->track().hasProductCache()<< std::endl;
+	std::cout << "is Available"  << muon->track().isAvailable()<< std::endl;
+	std::cout << "is Transient"  <<muon->track().isTransient()<< std::endl;
+
+
 	ref = muon->track();
-	getTracRef(ref,cosmicObject.tracker);
+	std::cout << "TrackMuon is processed !!!"<< std::endl;
+	std::cout <<"tracking id"  << ref.id()<< std::endl;
+
+
+	
+	getTracRef(ref,cosmicObject.tracker,true);
+	std::cout << "TrackMuon is processed !!!"<< std::endl;
+	std::cout <<"tracking id"  << ref.id()<< std::endl;
+
+
       }
       cosmicTree->Fill();
     }// close the for loop
@@ -239,7 +284,7 @@ void MuonAnalyzer::beginJob()
   cosmicTree->Branch("combined",            &(cosmicObject.combined), cosmicVariables::contents().c_str());
   cosmicTree->Branch("tracker",              &(cosmicObject.tracker), cosmicVariables::contents().c_str());
  
- 
+}// closes the beginjob function
     
   
 // ------------ method called once each job just after ending the event loop  ------------
