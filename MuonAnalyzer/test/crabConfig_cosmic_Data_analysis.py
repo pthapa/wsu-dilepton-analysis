@@ -3,7 +3,7 @@
 from CRABClient.UserUtilities import config, getUsernameFromSiteDB
 config = config()
 
-config.General.requestName = 'cosmicMuon2015D__Data_analysis'
+config.General.requestName = 'cosmicMuon2015D_RECOData_analysis'
 config.General.workArea = 'crab_cosmic_Muon'
 config.General.transferOutputs = True
 config.General.transferLogs = False
@@ -11,7 +11,7 @@ config.General.transferLogs = False
 config.JobType.pluginName = 'Analysis'
 config.JobType.psetName = 'wsuMuonAnalyzer_cfg.py'
 
-config.Data.inputDataset = '/Cosmics/Commissioning2015-PromptReco-v1/AOD' # difficulty to use DAS
+config.Data.inputDataset = '/Cosmics/Commissioning2015-PromptReco-v1/RECO' # difficulty to use DAS
 config.Data.inputDBS = 'global'# default value
 config.Data.splitting = 'FileBased'# there are other options such as Filebased and EventAwareLumiBased
 config.Data.unitsPerJob = 50 # How many events do you want to include in each job ?

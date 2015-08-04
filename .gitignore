@@ -1,9 +1,14 @@
+*
 *.root
 *~
 *.log
 *.out
+!*.py
 __init__.py
 *.pyc
 *.jpg
 *.png
 *__afs*
+!*.h
+!*.cc
+!*.xml

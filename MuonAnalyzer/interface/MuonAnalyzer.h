@@ -26,14 +26,14 @@
 #include <TH1.h>
 
 //
-// class declaration
-//
+// class declaration 
 
-class MuonAnalyzer : public edm::EDAnalyzer {
 
-public:
+   class MuonAnalyzer : public edm::EDAnalyzer {
+
+  public:
   struct cosmicVariables
-{
+  {
   int muon_upper_charge, muon_lower_charge;
   int muon_upper_number_of_pixel_hit, muon_upper_number_of_tracker_hit, muon_upper_number_of_muon_station_hit, muon_upper_hit;
   int muon_lower_number_of_pixel_hit, muon_lower_number_of_tracker_hit, muon_lower_number_of_muon_station_hit, muon_lower_hit;
@@ -67,7 +67,7 @@ struct cosmicMuon
   
   static void fillDescriptions(edm::ConfigurationDescriptions& descriptions);
   void initialize(cosmicMuon &theCosmicObject);
-  void getTracRef(reco::TrackRef ref, cosmicVariables &theCosmicVariables, bool debug);
+  void getTracRef(reco::TrackRef ref, cosmicVariables &theCosmicVariables);
   void selectMuon(cosmicVariables &theCosmicVariables);
  
 

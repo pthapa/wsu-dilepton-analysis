@@ -7,6 +7,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = 25000
 
 process.maxEvents = cms.untracked.PSet( input = cms.untracked.int32(-1) )
 
+
 process.source = cms.Source("PoolSource",
     # replace 'myfile.root' with the source file you want to use
     fileNames = cms.untracked.vstring(
@@ -31,11 +32,16 @@ process.source = cms.Source("PoolSource",
        # "/store/data/Commissioning2015/Cosmics/AOD/PromptReco-v1/000/236/545/00000/B03E8EB5-14C3-E411-BC17-02163E012078.root",# Error number 8023
 
     )
+#,
+#    inputCommands = cms.untracked.vstring(
+#        "drop recoDeDxDataedmValueMap_dedxDiscrimASmiCTF_*_*",
+#        "drop recoDeDxDataedmValueMap_dedxDiscrimASmiCosmicTF_*_*")
 )
 
 
 process.options = cms.untracked.PSet(
-    wantSummary = cms.untracked.bool(True)
+    wantSummary = cms.untracked.bool(True),
+   # allowUnscheduled = cms.untracked.bool(True)
 )
 
 from WSUDiLeptons.MuonAnalyzer.wsuMuonAnalyzer_cfi import muonAnalysis
@@ -66,7 +72,7 @@ process.analysisNoRPC = muonAnalysis.clone(
 
 process.TFileService = cms.Service("TFileService",
 # outputfile
-    fileName = cms.string('CosmicMuonAnalysis_Run2015B_struct.root')
+    fileName = cms.string('CosmicMuonAnalysis_RECO_struct.root')
 )
 process.p = cms.Path(
   process.analysisMuons
